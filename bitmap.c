@@ -18,7 +18,7 @@ void BitMap_init(BitMap *bit_map, int num_bits, uint8_t *buffer){
 // status= 0 or 1
 void BitMap_setBit(BitMap *bit_map, int bit_num, int status){
 	// get byte
-	int byte_num = bit_num >> 3;
+	int byte_num = bit_num >> 3; //divisione intero per 8
 	assert(byte_num < bit_map->buffer_size); // die if byte_num > buffer_size
 	int bit_in_byte = byte_num & 0x03;		 // int bit_in_byte = 7-(bit_num%8);
 	if (status){
