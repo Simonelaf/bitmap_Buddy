@@ -3,40 +3,31 @@
 
 #define MAX_LEVELS 16
 
-//il buddy allocator ha la stessa struttura della versione con le liste
-//uso bitmap invece delle liste
 typedef struct  {
-	//I just need a bitmap to handle the allocator
-	BitMap* tree;
-	int num_levels;
-	char* memory; // the memory area to be managed
-	int min_bucket_size; // the minimum size page of RAM that can be returned
+  BitMap bitmap;
+  int buddy_levels;
+  char* memory; // the buffer area to be managed
+  int memory_size;
+  int min_bucket_size; // the minimum page of RAM that can be returned
 } BuddyAllocator;
 
-
-// computes the size in bytes for the buffer of the allocator
-int BuddyAllocator_calcSize(int num_levels);
-
-
 // initializes the buddy allocator, and checks that the buffer is large enough
-void BuddyAllocator_init(BuddyAllocator* alloc,
-                         int num_levels,
-                         char* buffer,
-                         int buffer_size,
-                         char* memory,
+int BuddyAllocator_init(BuddyAllocator* buddy,
+                         int buddy_levels,
+                         char* memory, // buffer per l'allocator
+                         int memory_size,
+                         char* bitmap_buf, // buffer per la bitmap
+                         int bitmap_buf_size,
                          int min_bucket_size);
-                         
-// returns the index in the bitmap of the buddy
-// 0 id no memory available
-int BuddyAllocator_getBuddy(BuddyAllocator* alloc, int level);
-
-
-// releases an allocated buddy, performing the necessary joins
-// side effect on the internal structures
-void BuddyAllocator_releaseBuddy(BuddyAllocator* alloc, int idx);
 
 //allocates memory
-void* BuddyAllocator_malloc(BuddyAllocator* alloc, int size);
+void* BuddyAllocator_malloc(BuddyAllocator* buddy, int size);
 
 //releases allocated memory
-void BuddyAllocator_free(BuddyAllocator* alloc, void* mem);
+void BuddyAllocator_free(BuddyAllocator* buddy, void* mem);
+
+// set the status of all parents
+void set_parent(BitMap *bit_map, int bit_num, int status);
+
+// set the status of all children
+void set_children(BitMap *bit_map, int bit_num, int status);
