@@ -23,3 +23,5 @@ int BitMap_bit(const BitMap* bit_map, int bit_num);
 
 // prints the bit_map
 void Bitmap_print(BitMap *bit_map);
+
+//fine progetto

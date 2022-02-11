@@ -188,3 +188,4 @@ void set_children(BitMap *bit_map, int node_index, int status){
     set_children(bit_map, node_index * 2 + 2, status);
   }
 }
+//fine progetto

@@ -31,3 +31,5 @@ void set_parent(BitMap *bit_map, int bit_num, int status);
 
 // set the status of all children
 void set_children(BitMap *bit_map, int bit_num, int status);
+
+//fine rpogetto
