@@ -1,13 +1,23 @@
 # bitmap_Buddy
-Progetto per il corso di Sistemi Operativi,
+ <head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Progetto per il corso di Sistemi Operativi,
+corso di Ingegneria Informatica alla Sapienza dell'a.a.2021/2022.">
+  <meta name="keywords" content="C, University, Project">
+  <meta name="author" content="Simone La Falce">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  Progetto per l'esame di Sistemi Operativi,
 corso di Ingegneria Informatica alla Sapienza dell'a.a.2021/2022.
-
-Implementazione di un Buddy Allocator che fa utilizzo di una BitMap per ragioni di bookkeeping.
+<h3>[Progetto SO] Buddy Allocator – Implementazione tramite Bitmap</h3>
 L'allocatore funziona nel seguente modo: divide ricorsivamente a metà la memoria disponibile e alloca il più piccolo spazio libero in grado di soddisfare l’iniziale richiesta di memoria da allocare. Come esempio supponiamo di avere a disposizione un buffer di 512 kB e che arrivi una richiesta per 60 kB, la memoria verrà divisa in due partizioni da 256 kB, dopodichè poichè ancora troppo grandi una di queste verrà divisa in due ulteriori partizioni da 128 kB e poi ancora in partizioni da 64 kB; a questo punto ulteriori partizionamenti porterebbero ad avere blocchi di memoria(chiamati buddy) troppo piccoli per contenere i 60 kB quindi ci fermiamo e comunichiamo che è possibile soddisfare la richiesta.
 
 In questa implementazione il partizionamento è astratto: la memoria totale (e le sue partizioni) possono essere quindi rappresentate mediante un albero binario, in cui ciascun nodo rappresenta un blocco di memoria, la cui dimensione dipende dal livello dell’albero in cui si trova. Maggiore il livello, maggiore la profondità dell’albero e più piccoli i blocchi di memoria che si possono allocare.
 
 Ci avvaliamo dunque di una Bitmap per gestire la rappresentazione sottoforma di struttura ad albero binario completo della memoria, realizzata mediante un array, dove ciascuna cella rappresenta un nodo della struttura: viene assegnato il valore 0 alle celle dell’array corrispondenti a blocchi di memoria liberi e 1 per quelli allocati; questo ci aiuterà inoltre a individuare, gestire e restituire gli indirizzi dei blocchi di memoria utili soddisfare le richieste. Il blocco di memoria puntato dall'indirizzo sarà abbinato ad un nodo dell'albero e quindi ad un indice nella bitmap.<br><br>
+  
+  ![ryNhZ](https://user-images.githubusercontent.com/80332471/153765309-7f0c56d4-4e53-4498-acf9-8270a6ddc04f.png)
 
 Per associare i nodi dell'albero alla bitmap, ogni livello inizia con indice 2^(livello della bitmap) e finisce con indice (2^(livello+1)-1). 
 
@@ -22,5 +32,12 @@ Le altre funzioni implementate servono come ausilio a quelli appena descritti e 
 <code>set_parent</code> che imposta ricorsivamente il bit dei genitori nella bitmap
 
 <code>set_children</code> che imposta ricorsivamente il bit dei figli nella bitmap
+  
+  ### Compilazione ed esecuzione
 
+È disponibile un makefile per velocizzare il processo di compilazione:
 
+- “make all” crea tutti I file, eseguibili ed ogetto, dei test.
+- “make clean” rimuove I file compilati per lasciare solamente I file sorgente.
+
+</body>
